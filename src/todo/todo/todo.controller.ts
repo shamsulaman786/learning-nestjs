@@ -1,0 +1,69 @@
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    Put,
+    Delete
+} from '@nestjs/common';
+import { TodoDTO } from './todo.dto';
+import { todos } from './todos-mock';
+import { User } from 'src/entities/User.entity';
+import { DataSource } from 'typeorm';
+// import { TodosService } from './todo.service';
+
+let todosData = todos;
+
+@Controller('todos')
+// constructor(public dataSource:DataSource){
+export class TodoController {
+    // constructor(private readonly todosService: TodosService){
+    // }
+
+    @Get('users')
+    getUsers() {
+        // return this.dataSource.createQueryBuilder().select('*').from('user','u');
+    }
+
+    @Get()
+    getTodos() {
+        // return this.todosService.findAll;
+        return todosData;
+    }
+
+    @Get(":id")
+    getTodo(@Param("id") id): TodoDTO {
+        const todoTo = todosData.find(todo => todo.id === id);
+
+        return todoTo;
+    }
+
+    @Post()
+    createTodo(@Body() createTodo: TodoDTO): TodoDTO {
+        const newTodo: TodoDTO = {
+            id: (todosData.length + 1).toString(),
+            ...createTodo
+        };
+
+        todosData = [...todosData, newTodo];
+
+        return newTodo;
+    }
+
+    @Put(":id")
+    updateTodo(@Body() updateTodo: TodoDTO, @Param("id") id): TodoDTO {
+        todosData = todosData
+            .map(todo => (todo.id === id ? updateTodo : todo));
+
+        return updateTodo;
+    }
+
+    @Delete(":id")
+    deleteTodo(@Param("id") id): TodoDTO {
+        const todoToDelete = todosData.find(todo => todo.id === id);
+        todosData = todosData.filter(todo => todo.id !== id);
+
+        return todoToDelete;
+    }
+}
