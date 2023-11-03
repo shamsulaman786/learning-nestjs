@@ -6,7 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import dataSource from './database/migration.config';
 import { Todo } from './entities/todo.entity';
 import { TodoModule } from './todo/todo/todo.module';
-// import { TodosService } from './todo/todo/todo.service';
+import { User } from './entities/User.entity';
+import { TodosService } from './todo/todo/todo.service';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -19,10 +20,11 @@ import { TodoModule } from './todo/todo/todo.module';
     entities: [Todo],
     synchronize: true,
   }),
-  TodoModule
+  TodoModule,
+  TypeOrmModule.forFeature([User, Todo])
   ],
   controllers: [AppController, TodoController],
-  providers: [AppService],
+  providers: [AppService, TodosService],
 })
 export class AppModule { }
 

@@ -3,21 +3,21 @@ export const todos: TodoDTO[] = [
 {
 id: '1',
 title: 'Generate apps',
-status: 'done'
+status: true
 },
 {
 id: '2',
 title: 'Set up the backend',
-status: 'in progress'
+status: true
 },
 {
 id: '3',
 title: 'Connect DB',
-status: 'todo'
+status: true
 },
    {
 id: '4',
 title: 'Set up the client',
-status: 'todo'
+status: true
 },
 ]
