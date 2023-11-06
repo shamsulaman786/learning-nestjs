@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodoController } from './todo/todo/todo.controller';
@@ -8,6 +8,7 @@ import { Todo } from './entities/todo.entity';
 import { TodoModule } from './todo/todo/todo.module';
 import { User } from './entities/User.entity';
 import { TodosService } from './todo/todo/todo.service';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -26,5 +27,18 @@ import { TodosService } from './todo/todo/todo.service';
   controllers: [AppController, TodoController],
   providers: [AppService, TodosService],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: 'todos', method: RequestMethod.GET });
+    consumer.apply(LoggerMiddleware)
+    .exclude(
+      { path: 'todos', method: RequestMethod.PUT },
+      { path: 'todos', method: RequestMethod.POST },
+      'todos/(.*)',
+    )
+    .forRoutes(TodoController);
+  }
+}
 
