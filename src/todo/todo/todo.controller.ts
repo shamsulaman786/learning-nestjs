@@ -38,6 +38,17 @@ export class TodoController {
         .getMany();
     }
 
+    @Get('users')
+    getUsers() {
+
+        return this.dataSource.getRepository(User)
+        .createQueryBuilder("user")
+        .getMany();
+
+        // using service , not retruning result
+        return this.usersService.findAll();
+    }
+
     @Get(":id")
     getTodo(@Param("id") id): Promise<Todo | null> {
         // using srvice & repo
@@ -121,11 +132,4 @@ export class TodoController {
         return todoToDelete;
     }
 
-   /*  @Get('users')
-    async getUsers() {
-
-        // using service , not retruning result
-        return this.usersService.findAll();
-        
-    } */
 }

@@ -8,6 +8,7 @@ import { Todo } from './entities/todo.entity';
 import { TodoModule } from './todo/todo/todo.module';
 import { User } from './entities/User.entity';
 import { TodosService } from './todo/todo/todo.service';
+import { UsersService } from './todo/todo/user.service';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
@@ -18,14 +19,14 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     username: 'root',
     password: '',
     database: 'todo',
-    entities: [Todo],
+    entities: [Todo,User],
     synchronize: true,
   }),
   TodoModule,
   TypeOrmModule.forFeature([User, Todo])
   ],
   controllers: [AppController, TodoController],
-  providers: [AppService, TodosService],
+  providers: [AppService, TodosService, UsersService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
