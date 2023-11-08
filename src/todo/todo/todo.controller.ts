@@ -28,25 +28,41 @@ export class TodoController {
       ){}
 
     @Get()
-    getTodos() {
+    async getTodos() {
         // using service & repo
         // return this.todosService.findAll();
 
         // using datasource ang query builder
-        return this.dataSource.getRepository(Todo)
-        .createQueryBuilder("todo")
-        .getMany();
+        const todoRepository = this.dataSource.getRepository(Todo);
+        const todos = await todoRepository
+            .find({
+                relations: {
+                    user: true,
+                },
+            });
+
+        return todos;
     }
 
     @Get('users')
-    getUsers() {
+    async getUsers() {
 
-        return this.dataSource.getRepository(User)
-        .createQueryBuilder("user")
-        .getMany();
+        // return this.dataSource.getRepository(User)
+        // .createQueryBuilder("user")
+        // .getMany();
 
         // using service , not retruning result
-        return this.usersService.findAll();
+        // return this.usersService.findAll();
+
+        // using relation
+        const userRepository = this.dataSource.getRepository(User)
+        const users = await userRepository.find({
+            relations: {
+                todos: true,
+            },
+        });
+
+        return users;
     }
 
     @Get(":id")

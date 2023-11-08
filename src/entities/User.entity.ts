@@ -1,5 +1,6 @@
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Todo } from './todo.entity';
 
 @Entity()
 export class User {
@@ -23,4 +24,7 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => Todo, (todo) => todo.user)
+  todos: Todo[]
 }
