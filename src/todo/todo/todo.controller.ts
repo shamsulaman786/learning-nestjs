@@ -82,6 +82,7 @@ export class TodoController {
 
     @Post()
     createTodo(@Body() createTodo: any){
+        let userId = createTodo.userId;
         // w/t db
         // const newTodo: TodoDTO = {
         //     id: (todosData.length + 1).toString(),
