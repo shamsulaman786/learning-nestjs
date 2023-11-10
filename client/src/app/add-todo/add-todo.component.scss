@@ -1,0 +1,34 @@
+@use "igniteui-angular/theming" as *;
+
+// IMPORTANT: Prior to Ignite UI for Angular version 13 use:
+// @import '~igniteui-angular/lib/core/styles/themes/index';
+
+:host {
+  display: block;
+  padding: 16px;
+}
+
+.signInForm {
+  igx-input-group + igx-input-group {
+      margin-top: 24px;
+  }
+}
+
+.title-container{
+  display: flex;
+
+  igx-icon {
+      margin-right: 8px;
+  }
+}
+
+$dark-snackbar: snackbar-theme(
+    $text-color: #ffffff,
+    $background: #8de560,
+    $button-color: #9b852c,
+    $border-radius: 12px
+);
+
+:host {
+    @include css-vars($dark-snackbar);
+}

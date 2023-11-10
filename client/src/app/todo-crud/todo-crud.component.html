@@ -1,0 +1,46 @@
+<div class="grid__wrapper">
+  <app-add-todo (addTodoFormSubmitted)="saveTodo($event)"></app-add-todo>
+    <igx-grid
+        [data]="data"
+        primaryKey="id"
+        [isLoading]="isLoading"
+        [height]="'614px'" [width]="'100%'"
+        [autoGenerate]='false'
+        [allowFiltering]="false"
+        [totalRecords]="totalCount"
+        [rowEditable]="true"
+        (rowDeleted)="rowDeleted($event)"
+        (rowEditDone)="rowEditDone($event)">
+
+
+        <igx-paginator #paginator
+            [totalRecords]="totalCount"
+            [(page)]="page" [(perPage)]="perPage"
+            [selectOptions]="selectOptions"
+            (pageChange)="paginate($event)"
+            (perPageChange)="perPageChange($event)">
+        </igx-paginator>
+
+        <igx-column field="id" header="ID" [dataType]="'number'" [sortable]="true" [hasSummary]="false" [resizable]="true" [width]="'100px'">
+        </igx-column>
+        <igx-column field="title" header="Title" [dataType]="'string'" [sortable]="false" [hasSummary]="false" [filterable]="false">
+        </igx-column>
+        <igx-column field="status" header="Status" dataType="string" [sortable]="false" [hasSummary]="false" [filterable]="false" [editable]="true" [resizable]="true" [width]="'100px'">
+          <ng-template igxCell let-value>
+              <igx-checkbox [checked]="value" disabled>
+            </igx-checkbox>
+          </ng-template>
+          <ng-template igxCellEditor let-cell="cell" let-value>
+            <igx-checkbox [checked]="value" [(ngModel)]="cell.editValue" style="margin-left: 23px;">
+            </igx-checkbox>
+        </ng-template>
+        </igx-column>
+
+        <igx-action-strip #actionstrip>
+            <igx-grid-editing-actions [addRow]="false"></igx-grid-editing-actions>
+        </igx-action-strip>
+    </igx-grid>
+    <div>
+        <igx-snackbar #snackbar [outlet]="grid"></igx-snackbar>
+    </div>
+</div>

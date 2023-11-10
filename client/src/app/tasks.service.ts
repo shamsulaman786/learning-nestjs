@@ -6,18 +6,17 @@ import { map } from 'rxjs';
 })
 export class TaskService {
   host = 'http://localhost:3000';
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private http: HttpClient) {}
   getTasks() {
     return this.http.get(`${this.host}/todos`).pipe(map((res) => res));
   }
-  addTask(todo: string) {
-    return this.http.post(`${this.host}/todos`, {
-      name: todo,
-      completed: false,
-    });
+  async addTask(todo: any) {
+    return this.http.post(`${this.host}/todos`, todo);
   }
-  deleteTask(id: number) {
+  async updateTask(todo: any) {
+    return this.http.put(`${this.host}/todos/${todo.id}`, todo);
+  }
+  deleteTask(id: any) {
     return this.http.delete(`${this.host}/todos/${id}`);
   }
 }

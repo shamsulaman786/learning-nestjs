@@ -1,0 +1,27 @@
+<button igxButton="raised" igxRipple="white" (click)="form.open()">
+  Add Todo
+</button>
+
+<igx-dialog #form [closeOnOutsideSelect]="true">
+  <igx-dialog-title>
+    <div class="title-container">
+      <div class="dialog-title">Todo Form</div>
+    </div>
+  </igx-dialog-title>
+
+  <form class="signInForm" [formGroup]="todoForm" >
+    <igx-input-group>
+      <label igxLabel for="title">Task name</label>
+      <input igxInput id="title" type="text" formControlName="title"/>
+    </igx-input-group>
+    <div></div>
+    <igx-checkbox formControlName="status" style="margin-top: 32px">
+      Status
+    </igx-checkbox>
+    <div igxDialogActions>
+      <button igxButton  (click)="onCancel();form.close()">CANCEL</button>
+      <button igxButton [disabled]="!todoForm.valid" (click)="onSubmit(); form.close()">SAVE</button>
+    </div>
+  </form>
+
+</igx-dialog>
