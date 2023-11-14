@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IgxDialogComponent } from 'igniteui-angular';
 
 @Component({
   selector: 'app-add-todo',
@@ -7,8 +8,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-todo.component.scss'],
 })
 export class AddTodoComponent implements OnInit {
+  @ViewChild('form', { static: true })
+  form!: IgxDialogComponent;
+
+  openForm() {
+    this.form.open();
+  }
+
   onCancel() {
     this.todoForm.reset();
+    this.form.close()
   }
 
   @Output() addTodoFormSubmitted: EventEmitter<object> =
@@ -24,7 +33,8 @@ export class AddTodoComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   async onSubmit() {
     const title = this.todoForm.get('title')!.value; // Non-null assertion
@@ -32,6 +42,7 @@ export class AddTodoComponent implements OnInit {
 
     // Do something with the values
     await this.addTodoFormSubmitted.emit({ title: title, status: status });
+    this.form.close()
     this.todoForm.reset();
   }
 }
